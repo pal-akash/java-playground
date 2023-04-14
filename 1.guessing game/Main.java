@@ -23,10 +23,12 @@ class GuessingGame{
 
     void playGame(Scanner sc){
         System.out.println("Enter the range of your choice: ");
+        System.out.println("Enter lower bound: ");
         int lowerBound=sc.nextInt();
+        System.out.println("Enter upper bound: ");
         int upperBound=sc.nextInt();
         int actual=randomNumberGenerator(lowerBound,upperBound);
-        System.out.println(actual);
+        //System.out.println(actual);
 
         System.out.println("Enter how many guesses you want: ");
         int guessCount = sc.nextInt();
@@ -76,7 +78,7 @@ public class Main {
         GuessingGame newgame;
 
         do{
-            System.out.println("1. Play\n2. Exit");
+            System.out.println("Enter your choice:\n1. Play\n2. Exit");
             ch = sc.nextInt();
 
             switch(ch){
