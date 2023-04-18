@@ -5,6 +5,7 @@ import entity.PhoneInfo;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class ContactService {
@@ -83,7 +84,10 @@ public class ContactService {
         }
 
         System.out.println("Would you like to add contact label? Y/N");
-
+        String labelForContact = sc.next();
+        if(labelForContact=="Y"){
+            newContact.setLabel(labelForContact);
+        }
         return newContact;
     }
 
@@ -125,5 +129,15 @@ public class ContactService {
         for(int i=0; i<phoneList.size(); i++){
             System.out.println(phoneList.get(i).getNumber());
         }
+    }
+
+    public void deleteContact(List<Contact> contactList, Scanner sc){
+        Contact searchedContact = searchContact(contactList,sc);
+        if(Objects.isNull(searchedContact)){
+            System.out.println("No such contact found!");
+        }else{
+            contactList.remove(searchedContact);
+        }
+        System.out.println("Contact has been successfully removed!");
     }
 }

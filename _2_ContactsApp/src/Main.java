@@ -3,6 +3,7 @@ import service.ContactService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
@@ -22,11 +23,16 @@ public class Main {
                     System.out.println("Your contact has been successfully saved!");
                 }
                 case 2 -> System.out.println("This section is for edit contact and yet to be coded");
-                case 3 -> System.out.println("This section is for deleting contact and yet to be coded");
+                case 3 -> newContactService.deleteContact(contactList,sc);
                 case 4 ->
                 {
                     Contact foundContact = newContactService.searchContact(contactList, sc);
-                    newContactService.displayContact(foundContact);
+                    if(Objects.isNull(foundContact)){
+                        System.out.println("No such contact found!");
+                    }
+                    else{
+                        newContactService.displayContact(foundContact);
+                    }
                 }
                 case 5 -> newContactService.showAllContact(contactList);
                 case 6 -> System.out.println("Exiting app...");
