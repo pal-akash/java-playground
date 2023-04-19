@@ -22,7 +22,7 @@ public class Main {
                     contactList.add(newContactService.addToContact());
                     System.out.println("Your contact has been successfully saved!");
                 }
-                case 2 -> System.out.println("This section is for edit contact and yet to be coded");
+                case 2 -> newContactService.editContact(contactList,sc);
                 case 3 -> newContactService.deleteContact(contactList,sc);
                 case 4 ->
                 {

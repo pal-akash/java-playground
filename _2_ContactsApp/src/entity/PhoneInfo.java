@@ -22,7 +22,7 @@ public class PhoneInfo implements LabelInfo{
 
     @Override
     public String getLabel() {
-        return this.getLabel();
+        return this.label;
     }
 
 
