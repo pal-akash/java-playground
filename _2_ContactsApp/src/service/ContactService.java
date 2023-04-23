@@ -1,6 +1,5 @@
 package service;
-import entity.Contact;
-import entity.PhoneInfo;
+import entity.*;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
@@ -65,9 +64,9 @@ public class ContactService {
         }
 
         System.out.println("Would you like to add any significant date? Y/N");
-        int year, month, day;
-        LocalDate significantDate;
         if (sc.next().equals("Y")) {
+            int year, month, day;
+            LocalDate significantDate;
             System.out.println("Enter year: ");
             year = sc.nextInt();
 
@@ -84,8 +83,8 @@ public class ContactService {
         }
 
         System.out.println("Would you like to add contact label? Y/N");
-        String labelForContact = sc.next();
-        if (labelForContact.equals("Y")) {
+        if (sc.next().equals("Y")) {
+            String labelForContact = sc.next();
             newContact.setLabel(labelForContact);
         }
         return newContact;
@@ -106,6 +105,7 @@ public class ContactService {
                 List<PhoneInfo> phoneList = contactList.get(i).getPhoneList();
                 for (int j = 0; j < phoneList.size(); j++) {
                     if (phoneList.get(j).getNumber().equals(phoneNumber)) {
+                        System.out.println("Contact found!");
                         return contactList.get(i);
                     }
                 }
@@ -119,12 +119,14 @@ public class ContactService {
                 }
             }
         }
+        System.out.println("No such contact found!");
         return null;
     }
 
-    public void displayContact(Contact particularContact) {
+    public void displayContact(Contact particularContact, Scanner sc) {
         System.out.println(particularContact.getName());
         List<PhoneInfo> phoneList = particularContact.getPhoneList();
+        System.out.println("Phone numbers: ");
         for (int i = 0; i < phoneList.size(); i++) {
             System.out.println(phoneList.get(i).getNumber());
         }
@@ -144,7 +146,7 @@ public class ContactService {
         Contact editableContact = searchContact(contactList, sc);
         int ch;
         do {
-            System.out.println("What would you like to edit? \nEnter: \n1 for Name\n2 for Phone number \n3 for Address \n4 for Significant Date \n5 to finish editing");
+            System.out.println("What would you like to edit? \nEnter: \n1 for Name\n2 for Phone number \n3 for Address \n4 for Email \n5 for Significant Date \n6 to finish editing");
             ch = sc.nextInt();
             switch (ch) {
                 case 1 -> {
@@ -166,13 +168,14 @@ public class ContactService {
                 }
                 case 2 -> editPhoneNumber(editableContact,sc);
 
-                case 3 -> System.out.println("This section is for editing address and yet to be coded..");
-                case 4 -> System.out.println("This section is for editing significant date and yet to be coded..");
-                case 5-> System.out.println("All edits have been successfully saved. Exiting.");
+                case 3 -> editAddress(editableContact,sc);
+                case 4 -> editEmail(editableContact,sc);
+                case 5 -> editSignificantDate(editableContact, sc);
+                case 6-> System.out.println("All edits have been successfully saved. Exiting.");
 
                 default-> System.out.println("Invalid input! Please try again.");
             }
-        } while (ch != 5);
+        } while (ch != 6);
     }
 
     public void editFirstName(Contact editContact, Scanner sc){
@@ -196,7 +199,7 @@ public class ContactService {
         System.out.println("Last name has been successfully saved");
     }
 
-    public void editPhoneNumber(Contact editContact, Scanner sc){
+    public void editPhoneNumber(Contact editableContact, Scanner sc){
         System.out.println("Would you like to add a number? Y/N");
         String response=sc.next();
         if(response.equals("Y")){
@@ -206,36 +209,188 @@ public class ContactService {
             String newLabelForPhoneNumber = sc.next();
             PhoneInfo newPhoneNumber = new PhoneInfo(newNumber,newLabelForPhoneNumber);
 
-            editContact.getPhoneList().add(newPhoneNumber);
+            editableContact.getPhoneList().add(newPhoneNumber);
         }
 
         System.out.println("Would you like to delete or edit any existing number? Y/N");
         response=sc.next();
         if(response.equals("Y")){
-            System.out.println("Available phone numbers are: ");
-            List<PhoneInfo> phoneList = editContact.getPhoneList();
+            System.out.println("Available phone numbers for this contact are: ");
+            List<PhoneInfo> phoneList = editableContact.getPhoneList();
             for(int i=0; i<phoneList.size(); i++){
                 System.out.println("ID " + (i+1) + ". " + phoneList.get(i).getNumber() + " " + phoneList.get(i).getLabel());
             }
             System.out.println("Enter id of the number you want to delete or edit?");
-            int id=sc.nextInt();
-            System.out.println("Enter e for edit or d for delete: ");
-            String innerResponse=sc.next();
-            if(innerResponse.equals("e")){
+            int id=sc.nextInt()-1;
+            System.out.println("Enter E for edit or D for delete: ");
+            response=sc.next();
+            if(response.equals("E")){
                 System.out.println("Enter new number: ");
                 BigInteger newNumber = sc.nextBigInteger();
                 phoneList.get(id).setNumber(newNumber);
                 System.out.println("Would you like to change label as well? Y/N");
-                String innerInnerResponse = sc.next();
-                if(innerInnerResponse.equals("Y")){
+                String innerResponse = sc.next();
+                if(innerResponse.equals("Y")){
                     System.out.println("Enter new label: ");
                     String newLabelForPhoneNumber = sc.next();
                     phoneList.get(id).setLabel(newLabelForPhoneNumber);
                 }
             }else{
-                phoneList.remove(id-1);
+                phoneList.remove(id);
             }
         }
         System.out.println("Phone numbers has been successfully saved!");
     }
+
+    public void editAddress(Contact editableContact, Scanner sc){
+        System.out.println("Would you like to enter a new address? Y/N");
+        String response=sc.next();
+        if(response.equals("Y")){
+            System.out.println("Enter new address: ");
+            String newAddress = sc.next();
+            System.out.println("Enter label for new address: ");
+            String labelForNewAddress = sc.next();
+            AddressInfo newAddressInfo = new AddressInfo(newAddress, labelForNewAddress);
+
+            editableContact.getAddressList().add(newAddressInfo);
+        }
+        System.out.println("Would you like to delete or edit any existing address? Y/N");
+        response=sc.next();
+        if(response.equals("Y")){
+            System.out.println("Available addresses for this contact are: ");
+            List<AddressInfo> addressList = editableContact.getAddressList();
+            for(int i=0; i<addressList.size(); i++){
+                System.out.println("ID " + (i+1) + ". " + addressList.get(i).getAddress() + " " + addressList.get(i).getLabel());
+            }
+            System.out.println("Enter id of the address you want to delete or edit?");
+            int id=sc.nextInt()-1;
+            System.out.println("Enter E for edit or D for delete: ");
+            response =sc.next();
+            if(response.equals("E")){
+                System.out.println("Enter new address: ");
+                String newAddress = sc.next();
+                addressList.get(id).setAddress(newAddress);
+                System.out.println("Would you like to change label as well? Y/N");
+                String innerResponse = sc.next();
+                if(innerResponse.equals("Y")){
+                    System.out.println("Enter new label: ");
+                    String newLabelForAddress = sc.next();
+                    addressList.get(id).setLabel(newLabelForAddress);
+                }
+            }else{
+                addressList.remove(id);
+            }
+        }
+        System.out.println("Address has been successfully saved!");
+    }
+
+    public void editEmail(Contact editableContact, Scanner sc){
+        System.out.println("Would you like to enter a new email? Y/N");
+        String response=sc.next();
+        if(response.equals("Y")){
+            System.out.println("Enter new email: ");
+            String newEmail = sc.next();
+            System.out.println("Enter label for new email: ");
+            String labelForNewEmail = sc.next();
+            EmailInfo newEmailInfo = new EmailInfo(newEmail, labelForNewEmail);
+
+            editableContact.getEmailList().add(newEmailInfo);
+        }
+        System.out.println("Would you like to delete or edit any existing email? Y/N");
+        response=sc.next();
+        if(response.equals("Y")){
+            System.out.println("Available emails for this contact are: ");
+            List<EmailInfo> emailInfoList = editableContact.getEmailList();
+            for(int i=0; i<emailInfoList.size(); i++){
+                System.out.println("ID " + (i+1) + ". " + emailInfoList.get(i).getEmail() + " " + emailInfoList.get(i).getLabel());
+            }
+            System.out.println("Enter id of the email you want to delete or edit?");
+            int id=sc.nextInt()-1;
+            System.out.println("Enter E for edit or D for delete: ");
+            response =sc.next();
+            if(response.equals("E")){
+                System.out.println("Enter new address: ");
+                String newEmail = sc.next();
+                emailInfoList.get(id).setEmail(newEmail);
+                System.out.println("Would you like to change label as well? Y/N");
+                String innerResponse = sc.next();
+                if(innerResponse.equals("Y")){
+                    System.out.println("Enter new label: ");
+                    String newLabelForEmail = sc.next();
+                    emailInfoList.get(id).setLabel(newLabelForEmail);
+                }
+            }else{
+                emailInfoList.remove(id);
+            }
+        }
+        System.out.println("Email has been successfully saved!");
+    }
+
+    public void editSignificantDate(Contact editableContact, Scanner sc){
+        System.out.println("Would you like to enter a new significant date? Y/N");
+        String response=sc.next();
+        if(response.equals("Y")){
+            SignificantDateInfo newSignificantDateInfo;
+            int year, month, day;
+            LocalDate newSignificantDate;
+            System.out.println("Enter year: ");
+            year = sc.nextInt();
+
+            System.out.println("Enter month: ");
+            month = sc.nextInt();
+
+            System.out.println("Enter day: ");
+            day = sc.nextInt();
+
+            newSignificantDate = LocalDate.of(year, month, day);
+            System.out.println("Enter label for significant date: ");
+            String labelForNewSignificantDate = sc.next();
+
+            newSignificantDateInfo = new SignificantDateInfo(newSignificantDate, labelForNewSignificantDate);
+            editableContact.getSignificantDateList().add(newSignificantDateInfo);
+        }
+        System.out.println("Would you like to delete or edit any existing significant date? Y/N");
+        response=sc.next();
+        if(response.equals("Y")){
+            System.out.println("Available significant dates are for this contact are: ");
+            List<SignificantDateInfo> significantDateInfoList = editableContact.getSignificantDateList();
+            for(int i=0; i<significantDateInfoList.size(); i++){
+                System.out.println("ID " + (i+1) + ". " + significantDateInfoList.get(i).getDate() + " " + significantDateInfoList.get(i).getLabel());
+            }
+            System.out.println("Enter id of the significant date you want to delete or edit?");
+            int id=sc.nextInt()-1;
+            System.out.println("Enter E for edit or D for delete: ");
+            response =sc.next();
+            if(response.equals("E")){
+                System.out.println("Enter new significant date: ");
+                int year, month, day;
+                LocalDate newSignificantDate;
+                System.out.println("Enter year: ");
+                year = sc.nextInt();
+
+                System.out.println("Enter month: ");
+                month = sc.nextInt();
+
+                System.out.println("Enter day: ");
+                day = sc.nextInt();
+
+                newSignificantDate = LocalDate.of(year, month, day);
+                significantDateInfoList.get(id).setDate(newSignificantDate);
+
+                System.out.println("Would you like to change the label as well? Y/N");
+                String innerResponse = sc.next();
+                if(innerResponse.equals("Y")){
+                    System.out.println("Enter new label: ");
+                    String newLabelForSignificantDate = sc.next();
+                    significantDateInfoList.get(id).setLabel(newLabelForSignificantDate);
+                }
+            }else{
+                significantDateInfoList.remove(id);
+            }
+        }
+        System.out.println("Significant date has been successfully saved!");
+    }
 }
+
+
+

@@ -31,7 +31,7 @@ public class Main {
                         System.out.println("No such contact found!");
                     }
                     else{
-                        newContactService.displayContact(foundContact);
+                        newContactService.displayContact(foundContact, sc);
                     }
                 }
                 case 5 -> newContactService.showAllContact(contactList);
