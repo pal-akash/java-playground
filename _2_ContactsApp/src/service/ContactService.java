@@ -84,6 +84,7 @@ public class ContactService {
 
         System.out.println("Would you like to add contact label? Y/N");
         if (sc.next().equals("Y")) {
+            System.out.println("Enter label for contact: ");
             String labelForContact = sc.next();
             newContact.setLabel(labelForContact);
         }
@@ -115,6 +116,7 @@ public class ContactService {
             String name = sc.next();
             for (int i = 0; i < contactList.size(); i++) {
                 if (contactList.get(i).getName().contains(name)) {
+                    System.out.println("Contact found!");
                     return contactList.get(i);
                 }
             }
@@ -130,16 +132,40 @@ public class ContactService {
         for (int i = 0; i < phoneList.size(); i++) {
             System.out.println(phoneList.get(i).getNumber());
         }
+        System.out.println("Would you like to see full contact details? Y/N");
+        if(sc.next().equals("Y")){
+            System.out.println("\nFull name: \n" + particularContact.getName());
+            System.out.println("\nContact label: \n" + particularContact.getLabel());
+            System.out.println("\nPhone numbers: ");
+            for (int i = 0; i < phoneList.size(); i++) {
+                System.out.println(phoneList.get(i).getNumber() + " " + phoneList.get(i).getLabel());
+            }
+            List<AddressInfo> addressInfoList = particularContact.getAddressList();
+            List<EmailInfo> emailInfoList = particularContact.getEmailList();
+            List<SignificantDateInfo> significantDateInfoList= particularContact.getSignificantDateList();
+            System.out.println("\nAddresses: ");
+            for (int i = 0; i < addressInfoList.size(); i++) {
+                System.out.println(addressInfoList.get(i).getAddress() + " " + addressInfoList.get(i).getLabel());
+            }
+            System.out.println("\nEmails: ");
+            for (int i = 0; i < emailInfoList.size(); i++) {
+                System.out.println(emailInfoList.get(i).getEmail() + " " + emailInfoList.get(i).getLabel());
+            }
+            System.out.println("\nSignificant dates are: ");
+            for (int i = 0; i < significantDateInfoList.size(); i++) {
+                System.out.println(significantDateInfoList.get(i).getDate() + " " + significantDateInfoList.get(i).getLabel());
+            }
+        }
     }
 
     public void deleteContact(List<Contact> contactList, Scanner sc) {
         Contact searchedContact = searchContact(contactList, sc);
         if (Objects.isNull(searchedContact)) {
-            System.out.println("No such contact found!");
+            System.out.println("Can't execute delete operation.");
         } else {
             contactList.remove(searchedContact);
+            System.out.println("Contact has been successfully removed!");
         }
-        System.out.println("Contact has been successfully removed!");
     }
 
     public void editContact(List<Contact> contactList, Scanner sc) {
