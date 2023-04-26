@@ -92,8 +92,8 @@ public class ContactService {
     }
 
     public void showAllContact(List<Contact> contactList) {
-        for (int i = 0; i < contactList.size(); i++) {
-            System.out.println(contactList.get(i).getName());
+        for (Contact contact : contactList) {
+            System.out.println(contact.getName());
         }
     }
 
@@ -102,22 +102,22 @@ public class ContactService {
         if (sc.next().equals("P")) {
             System.out.println("Enter phone number: ");
             BigInteger phoneNumber = sc.nextBigInteger();
-            for (int i = 0; i < contactList.size(); i++) {
-                List<PhoneInfo> phoneList = contactList.get(i).getPhoneList();
-                for (int j = 0; j < phoneList.size(); j++) {
-                    if (phoneList.get(j).getNumber().equals(phoneNumber)) {
+            for (Contact contact : contactList) {
+                List<PhoneInfo> phoneList = contact.getPhoneList();
+                for (PhoneInfo phoneInfo : phoneList) {
+                    if (phoneInfo.getNumber().equals(phoneNumber)) {
                         System.out.println("Contact found!");
-                        return contactList.get(i);
+                        return contact;
                     }
                 }
             }
         } else {
             System.out.println("Enter name: ");
             String name = sc.next();
-            for (int i = 0; i < contactList.size(); i++) {
-                if (contactList.get(i).getName().contains(name)) {
+            for (Contact contact : contactList) {
+                if (contact.getName().contains(name)) {
                     System.out.println("Contact found!");
-                    return contactList.get(i);
+                    return contact;
                 }
             }
         }
@@ -129,31 +129,31 @@ public class ContactService {
         System.out.println(particularContact.getName());
         List<PhoneInfo> phoneList = particularContact.getPhoneList();
         System.out.println("Phone numbers: ");
-        for (int i = 0; i < phoneList.size(); i++) {
-            System.out.println(phoneList.get(i).getNumber());
+        for (PhoneInfo phoneInfo : phoneList) {
+            System.out.println(phoneInfo.getNumber());
         }
         System.out.println("Would you like to see full contact details? Y/N");
         if(sc.next().equals("Y")){
             System.out.println("\nFull name: \n" + particularContact.getName());
             System.out.println("\nContact label: \n" + particularContact.getLabel());
             System.out.println("\nPhone numbers: ");
-            for (int i = 0; i < phoneList.size(); i++) {
-                System.out.println(phoneList.get(i).getNumber() + " " + phoneList.get(i).getLabel());
+            for (PhoneInfo phoneInfo : phoneList) {
+                System.out.println(phoneInfo.getNumber() + " " + phoneInfo.getLabel());
             }
             List<AddressInfo> addressInfoList = particularContact.getAddressList();
             List<EmailInfo> emailInfoList = particularContact.getEmailList();
             List<SignificantDateInfo> significantDateInfoList= particularContact.getSignificantDateList();
             System.out.println("\nAddresses: ");
-            for (int i = 0; i < addressInfoList.size(); i++) {
-                System.out.println(addressInfoList.get(i).getAddress() + " " + addressInfoList.get(i).getLabel());
+            for (AddressInfo addressInfo : addressInfoList) {
+                System.out.println(addressInfo.getAddress() + " " + addressInfo.getLabel());
             }
             System.out.println("\nEmails: ");
-            for (int i = 0; i < emailInfoList.size(); i++) {
-                System.out.println(emailInfoList.get(i).getEmail() + " " + emailInfoList.get(i).getLabel());
+            for (EmailInfo emailInfo : emailInfoList) {
+                System.out.println(emailInfo.getEmail() + " " + emailInfo.getLabel());
             }
             System.out.println("\nSignificant dates are: ");
-            for (int i = 0; i < significantDateInfoList.size(); i++) {
-                System.out.println(significantDateInfoList.get(i).getDate() + " " + significantDateInfoList.get(i).getLabel());
+            for (SignificantDateInfo significantDateInfo : significantDateInfoList) {
+                System.out.println(significantDateInfo.getDate() + " " + significantDateInfo.getLabel());
             }
         }
     }

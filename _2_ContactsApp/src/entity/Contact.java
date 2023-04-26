@@ -85,9 +85,6 @@ public class Contact {
         return addressList;
     }
 
-    public void addAddress(List<AddressInfo> addressList) {
-        this.addressList = addressList;
-    }
 
     public void addAddress(String address, String label) {
         if (Objects.isNull(this.addressList)) {
