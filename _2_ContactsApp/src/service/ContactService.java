@@ -1,13 +1,16 @@
 package service;
+import dao.ContactsDao;
 import entity.*;
 
 import java.math.BigInteger;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class ContactService {
+
+    private final ContactsDao contactsDao = new ContactsDao();
 
     public Contact addToContact() {
         Contact newContact = new Contact();
@@ -34,6 +37,13 @@ public class ContactService {
             lastName = "";
         }
         newContact.setLastName(lastName);
+
+        System.out.println("Would you like to add contact label? Y/N");
+        if (sc.next().equals("Y")) {
+            System.out.println("Enter label for contact: ");
+            String labelForContact = sc.next();
+            newContact.setLabel(labelForContact);
+        }
 
         System.out.println("How many number would you like to add?");
         int num = sc.nextInt();
@@ -66,7 +76,7 @@ public class ContactService {
         System.out.println("Would you like to add any significant date? Y/N");
         if (sc.next().equals("Y")) {
             int year, month, day;
-            LocalDate significantDate;
+            Date significantDate;
             System.out.println("Enter year: ");
             year = sc.nextInt();
 
@@ -76,25 +86,22 @@ public class ContactService {
             System.out.println("Enter day: ");
             day = sc.nextInt();
 
-            significantDate = LocalDate.of(year, month, day);
+            significantDate = new Date(year, month, day);
             System.out.println("Enter label for significant date: ");
             String labelForSignificantDate = sc.next();
             newContact.addSignificantDate(significantDate, labelForSignificantDate);
         }
 
-        System.out.println("Would you like to add contact label? Y/N");
-        if (sc.next().equals("Y")) {
-            System.out.println("Enter label for contact: ");
-            String labelForContact = sc.next();
-            newContact.setLabel(labelForContact);
+        boolean flag = contactsDao.addContactDao(newContact);
+        if(flag){
+            System.out.println("Contact successfully added!");
         }
+
         return newContact;
     }
 
-    public void showAllContact(List<Contact> contactList) {
-        for (Contact contact : contactList) {
-            System.out.println(contact.getName());
-        }
+    public void showAllContact() {
+        contactsDao.showAllContactDao();
     }
 
     public Contact searchContact(List<Contact> contactList, Scanner sc) {
@@ -358,7 +365,7 @@ public class ContactService {
         if(response.equals("Y")){
             SignificantDateInfo newSignificantDateInfo;
             int year, month, day;
-            LocalDate newSignificantDate;
+            Date newSignificantDate;
             System.out.println("Enter year: ");
             year = sc.nextInt();
 
@@ -368,7 +375,7 @@ public class ContactService {
             System.out.println("Enter day: ");
             day = sc.nextInt();
 
-            newSignificantDate = LocalDate.of(year, month, day);
+            newSignificantDate = new Date(year, month, day);
             System.out.println("Enter label for significant date: ");
             String labelForNewSignificantDate = sc.next();
 
@@ -390,7 +397,7 @@ public class ContactService {
             if(response.equals("E")){
                 System.out.println("Enter new significant date: ");
                 int year, month, day;
-                LocalDate newSignificantDate;
+                Date newSignificantDate;
                 System.out.println("Enter year: ");
                 year = sc.nextInt();
 
@@ -400,7 +407,7 @@ public class ContactService {
                 System.out.println("Enter day: ");
                 day = sc.nextInt();
 
-                newSignificantDate = LocalDate.of(year, month, day);
+                newSignificantDate = new Date(year, month, day);
                 significantDateInfoList.get(id).setDate(newSignificantDate);
 
                 System.out.println("Would you like to change the label as well? Y/N");
@@ -416,6 +423,8 @@ public class ContactService {
         }
         System.out.println("Significant date has been successfully saved!");
     }
+
+
 }
 
 

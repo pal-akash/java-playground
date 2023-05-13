@@ -1,21 +1,21 @@
 package entity;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 public class SignificantDateInfo implements LabelInfo{
-    private LocalDate date;
+    private Date date;
     private String label;
 
-    public SignificantDateInfo(LocalDate date, String label){
+    public SignificantDateInfo(Date date, String label){
         this.date=date;
         this.label=label;
     }
 
-    public LocalDate getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

@@ -61,10 +61,8 @@ public class Main {
                         }
                     }
                 }
-                case 3->
-                {
-                    StudentDao.displayAllStudent();
-                }
+                case 3-> StudentDao.displayAllStudent();
+
                 case 4->
                 {
                     System.out.println("Enter id of student you want to update..");

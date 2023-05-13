@@ -7,21 +7,20 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+
+    public static void main(String[] args){
         List<Contact> contactList = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
         ContactService newContactService = new ContactService();
         int choice;
         System.out.println("Welcome to the contact app!");
         do{
-            System.out.println("Enter your choice: \n1. Add new contact \n2. Edit contact\n3. Delete contact \n4. Search contact\n5. Show all contact\n6. Exit");
+            System.out.println("Enter your choice: "
+                    + "\n1. Add new contact \n2. Edit contact\n3. Delete contact "
+                    + "\n4. Search contact\n5. Show all contact\n6. Exit");
             choice=sc.nextInt();
             switch (choice) {
-                case 1 ->
-                {
-                    contactList.add(newContactService.addToContact());
-                    System.out.println("Your contact has been successfully saved!");
-                }
+                case 1 -> contactList.add(newContactService.addToContact());
                 case 2 -> newContactService.editContact(contactList,sc);
                 case 3 -> newContactService.deleteContact(contactList,sc);
                 case 4 ->
@@ -34,10 +33,10 @@ public class Main {
                         newContactService.displayContact(foundContact, sc);
                     }
                 }
-                case 5 -> newContactService.showAllContact(contactList);
+                case 5 -> newContactService.showAllContact();
                 case 6 -> System.out.println("Exiting app...");
                 default -> System.out.println("Invalid input! Please try again.");
             }
-        }while(choice!=6);
+        } while (choice != 6);
     }
 }

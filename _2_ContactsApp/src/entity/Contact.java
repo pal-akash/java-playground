@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Date;
 
 public class Contact {
     private String firstName;
@@ -97,7 +98,7 @@ public class Contact {
         return significantDateList;
     }
 
-    public void addSignificantDate(LocalDate date, String label) {
+    public void addSignificantDate(Date date, String label) {
         if(Objects.isNull(this.significantDateList)){
             this.significantDateList=new ArrayList<>();
         }
