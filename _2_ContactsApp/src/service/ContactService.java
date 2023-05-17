@@ -3,18 +3,15 @@ import dao.ContactsDao;
 import entity.*;
 
 import java.math.BigInteger;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import java.time.LocalDate;
+import java.util.*;
 
 public class ContactService {
-
+    public static List<Contact> contactList = new ArrayList<>();
     private final ContactsDao contactsDao = new ContactsDao();
 
-    public Contact addToContact() {
+    public void addToContact(Scanner sc) {
         Contact newContact = new Contact();
-        Scanner sc = new Scanner(System.in);
 
         System.out.println("Enter first name: ");
         String firstName = sc.next();
@@ -57,49 +54,52 @@ public class ContactService {
 
         System.out.println("Would you like to add any email? Y/N");
         if (sc.next().equals("Y")) {
-            System.out.println("Enter email: ");
-            String email = sc.next();
-            System.out.println("Enter label for email: ");
-            String labelForEmail = sc.next();
-            newContact.addEmail(email, labelForEmail);
+            System.out.println("How many email would you like to add?");
+            num = sc.nextInt();
+            for (int i = 0; i < num; i++) {
+                System.out.println("Enter email: ");
+                String email = sc.next();
+                System.out.println("Enter label for email: ");
+                String labelForEmail = sc.next();
+                newContact.addEmail(email, labelForEmail);
+            }
         }
 
         System.out.println("Would you like to add any address? Y/N");
         if (sc.next().equals("Y")) {
-            System.out.println("Enter address: ");
-            String address = sc.next();
-            System.out.println("Enter label for address: ");
-            String labelForAddress = sc.next();
-            newContact.addAddress(address, labelForAddress);
+            System.out.println("How many address would you like to add?");
+            num = sc.nextInt();
+            for (int i = 0; i < num; i++) {
+                System.out.println("Enter address: ");
+                String address = sc.next();
+                System.out.println("Enter label for address: ");
+                String labelForAddress = sc.next();
+                newContact.addAddress(address, labelForAddress);
+            }
         }
 
         System.out.println("Would you like to add any significant date? Y/N");
         if (sc.next().equals("Y")) {
-            int year, month, day;
-            Date significantDate;
-            System.out.println("Enter year: ");
-            year = sc.nextInt();
+            System.out.println("How many significant date would you like to add?");
+            num = sc.nextInt();
+            for (int i = 0; i < num; i++) {
+                int year, month, day;
+                LocalDate significantDate;
+                System.out.println("Enter year: ");
+                year = sc.nextInt();
 
-            System.out.println("Enter month: ");
-            month = sc.nextInt();
+                System.out.println("Enter month: ");
+                month = sc.nextInt();
 
-            System.out.println("Enter day: ");
-            day = sc.nextInt();
+                System.out.println("Enter day: ");
+                day = sc.nextInt();
 
-            significantDate = new Date(year, month, day);
-            System.out.println("Enter label for significant date: ");
-            String labelForSignificantDate = sc.next();
-            newContact.addSignificantDate(significantDate, labelForSignificantDate);
+                significantDate = LocalDate.of(year, month, day);
+                System.out.println("Enter label for significant date: ");
+                String labelForSignificantDate = sc.next();
+                newContact.addSignificantDate(significantDate, labelForSignificantDate);
+            }
         }
-
-        boolean flag = contactsDao.addContactDao(newContact);
-        if(flag){
-            System.out.println("Contact successfully added!");
-        }
-
-        return newContact;
-    }
-
     public void showAllContact() {
         contactsDao.showAllContactDao();
     }

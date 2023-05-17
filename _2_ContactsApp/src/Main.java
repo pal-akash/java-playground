@@ -1,15 +1,8 @@
-import entity.Contact;
 import service.ContactService;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
-
     public static void main(String[] args){
-        List<Contact> contactList = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
         ContactService newContactService = new ContactService();
         int choice;
@@ -17,26 +10,18 @@ public class Main {
         do{
             System.out.println("Enter your choice: "
                     + "\n1. Add new contact \n2. Edit contact\n3. Delete contact "
-                    + "\n4. Search contact\n5. Show all contact\n6. Exit");
+                    + "\n4. Search contact\n5. Show all contact\n6. Delete all contact \n7. Exit");
             choice=sc.nextInt();
             switch (choice) {
-                case 1 -> contactList.add(newContactService.addToContact());
-                case 2 -> newContactService.editContact(contactList,sc);
-                case 3 -> newContactService.deleteContact(contactList,sc);
-                case 4 ->
-                {
-                    Contact foundContact = newContactService.searchContact(contactList, sc);
-                    if(Objects.isNull(foundContact)){
-                        System.out.println("No such contact found!");
-                    }
-                    else{
-                        newContactService.displayContact(foundContact, sc);
-                    }
-                }
+                case 1 -> newContactService.addToContact(sc);
+                case 2 -> newContactService.editContact(sc);
+                case 3 -> newContactService.searchForDelete(sc);
+                case 4 -> newContactService.searchForDisplayContact(sc);
                 case 5 -> newContactService.showAllContact();
-                case 6 -> System.out.println("Exiting app...");
+                case 6 -> newContactService.deleteAllContact();
+                case 7 -> System.out.println("Exiting app...");
                 default -> System.out.println("Invalid input! Please try again.");
             }
-        } while (choice != 6);
+        } while (choice != 7);
     }
 }

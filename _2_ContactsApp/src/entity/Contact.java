@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Date;
 
 public class Contact {
+    private int contactId;
     private String firstName;
     private String middleName;
     private String lastName;
@@ -17,6 +17,11 @@ public class Contact {
     private List<AddressInfo> addressList;
     private List<SignificantDateInfo> significantDateList;
 
+    public int getContactId(){ return contactId;}
+
+    public void setContactId(int contactId){
+        this.contactId=contactId;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -98,7 +103,7 @@ public class Contact {
         return significantDateList;
     }
 
-    public void addSignificantDate(Date date, String label) {
+    public void addSignificantDate(LocalDate date, String label) {
         if(Objects.isNull(this.significantDateList)){
             this.significantDateList=new ArrayList<>();
         }
