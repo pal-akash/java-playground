@@ -127,6 +127,67 @@ public class ContactsDao {
         return newContact;
     }
 
+    public ArrayList fetchAllContactFromDB(){
+        ArrayList<Contact> allContactList = new ArrayList<>();
+        try {
+            con=ConnectionProvider.createConnection();
+            PreparedStatement preparedStatement;
+            String query = "select id, fname, mname, lname, contactlabel from contactapp.contact where id=?";
+            preparedStatement = con.prepareStatement(SQLStatements.SELECT_ALL_CONTACT);
+            ResultSet output = preparedStatement.executeQuery();
+
+            if (output.next()) {
+                Contact newContact=new Contact();
+                newContact.setContactId(output.getInt(1));
+                newContact.setFirstName(output.getString(2));
+                newContact.setMiddleName(output.getString(3));
+                newContact.setLastName(output.getString(4));
+                newContact.setLabel(output.getString(5));
+
+                PreparedStatement psForPhone;
+                String queryForPhone = "select phonenumber, phonenumlabel from phonenum where cid=?";
+                psForPhone = con.prepareStatement(queryForPhone);
+                psForPhone.setInt(1, output.getInt(1));
+                ResultSet opForPhone = psForPhone.executeQuery();
+                while (opForPhone.next()) {
+                    newContact.addPhone(new BigInteger(opForPhone.getString(1)), opForPhone.getString(2));
+                }
+
+                PreparedStatement psForEmail;
+                String queryForEmail = "select emailaddress, emaillabel from email where cid=?";
+                psForEmail = con.prepareStatement(queryForEmail);
+                psForEmail.setInt(1, output.getInt(1));
+                ResultSet opForEmail = psForEmail.executeQuery();
+                while (opForEmail.next()) {
+                    newContact.addEmail(opForEmail.getString(1), opForEmail.getString(2));
+                }
+
+                PreparedStatement psForAddress;
+                String queryForAddress = "select addressdetail, addresslabel from address where cid=?";
+                psForAddress = con.prepareStatement(queryForAddress);
+                psForAddress.setInt(1, output.getInt(1));
+                ResultSet opForAddress = psForAddress.executeQuery();
+                while (opForAddress.next()) {
+                    newContact.addAddress(opForAddress.getString(1), opForAddress.getString(2));
+                }
+
+
+                PreparedStatement psForSigdate;
+                String queryForSigDate = "select significantdate, sigdatelabel from sigdate where cid=?";
+                psForSigdate = con.prepareStatement(queryForSigDate);
+                psForSigdate.setInt(1, output.getInt(1));
+                ResultSet opForSigdate = psForSigdate.executeQuery();
+                while (opForSigdate.next()) {
+                    newContact.addSignificantDate(opForSigdate.getDate(1).toLocalDate(), opForSigdate.getString(2));
+                }
+                allContactList.add(newContact);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return allContactList;
+    }
+
     public int saveBasicContactDetail(Contact newContact){
         int newId=-1;
         try{

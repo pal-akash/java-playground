@@ -425,6 +425,14 @@ public class ContactService {
     }
 
 
+    public void fetchAllContact(){
+        contactList=contactsDao.fetchAllContactFromDB();
+        if(contactList.isEmpty()){
+            System.out.println("No contact available! Please add new contact!");
+        }else{
+            System.out.println("All contacts has been fetched!");
+        }
+    }
 }
 
 

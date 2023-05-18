@@ -5,6 +5,7 @@ public class Main {
     public static void main(String[] args){
         Scanner sc = new Scanner(System.in);
         ContactService newContactService = new ContactService();
+        newContactService.fetchAllContact();
         int choice;
         System.out.println("Welcome to the contact app!");
         do{
