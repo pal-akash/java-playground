@@ -319,4 +319,32 @@ public class ContactsDao {
             e.printStackTrace();
         }
     }
+    public void deleteAllContactDao(){
+        try{
+            con=ConnectionProvider.createConnection();
+            PreparedStatement preparedStatement;
+            String query = "delete from sigdate";
+            preparedStatement=con.prepareStatement(query);
+            preparedStatement.executeUpdate(query);
+
+            query="delete from address";
+            preparedStatement=con.prepareStatement(query);
+            preparedStatement.executeUpdate(query);
+
+            query="delete from email";
+            preparedStatement=con.prepareStatement(query);
+            preparedStatement.executeUpdate(query);
+
+            query="delete from phonenum";
+            preparedStatement=con.prepareStatement(query);
+            preparedStatement.executeUpdate(query);
+
+            query="delete from contact";
+            preparedStatement=con.prepareStatement(query);
+            preparedStatement.executeUpdate(query);
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 }

@@ -470,6 +470,11 @@ public class ContactService {
         System.out.println("Significant date has been successfully saved!");
     }
 
+    public void deleteAllContact(){
+        contactsDao.deleteAllContactDao();
+        contactList.clear();
+        System.out.println("All contacts has been successfully deleted!");
+    }
 
     public void fetchAllContact(){
         contactList=contactsDao.fetchAllContactFromDB();
