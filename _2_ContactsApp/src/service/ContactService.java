@@ -104,64 +104,81 @@ public class ContactService {
         contactsDao.showAllContactDao();
     }
 
-    public Contact searchContact(List<Contact> contactList, Scanner sc) {
+    public void searchForDisplayContact(Scanner sc) {
         System.out.println("Would you like to search using phone number or name? (P/N)");
         if (sc.next().equals("P")) {
             System.out.println("Enter phone number: ");
             BigInteger phoneNumber = sc.nextBigInteger();
+            boolean notFound=true;
             for (Contact contact : contactList) {
-                List<PhoneInfo> phoneList = contact.getPhoneList();
-                for (PhoneInfo phoneInfo : phoneList) {
+                for (PhoneInfo phoneInfo : contact.getPhoneList()) {
                     if (phoneInfo.getNumber().equals(phoneNumber)) {
+                        notFound=false;
                         System.out.println("Contact found!");
-                        return contact;
+                        displayBasicContactDetails(contact);
+                        System.out.println("Would you like to see full contact details? Y/N");
+                        if(sc.next().equals("Y")){
+                            displayFullContactDetails(contact);
+                        }
                     }
                 }
             }
+            if(notFound){
+                System.out.println("No such contact found!");
+            }
         } else {
             System.out.println("Enter name: ");
-            String name = sc.next();
+            String nameInput = sc.next();
+            boolean notFound=true;
             for (Contact contact : contactList) {
-                if (contact.getName().contains(name)) {
+                if (contact.getName().contains(nameInput)) {
                     System.out.println("Contact found!");
-                    return contact;
+                    notFound=false;
+                    displayBasicContactDetails(contact);
+                    System.out.println("Would you like to see full contact details? Y/N");
+                    if(sc.next().equals("Y")){
+                        displayFullContactDetails(contact);
+                    }
                 }
             }
+            if(notFound){
+                System.out.println("No such contact found!");
+            }
         }
-        System.out.println("No such contact found!");
-        return null;
     }
 
-    public void displayContact(Contact particularContact, Scanner sc) {
-        System.out.println(particularContact.getName());
-        List<PhoneInfo> phoneList = particularContact.getPhoneList();
-        System.out.println("Phone numbers: ");
-        for (PhoneInfo phoneInfo : phoneList) {
-            System.out.println(phoneInfo.getNumber());
-        }
-        System.out.println("Would you like to see full contact details? Y/N");
-        if(sc.next().equals("Y")){
-            System.out.println("\nFull name: \n" + particularContact.getName());
-            System.out.println("\nContact label: \n" + particularContact.getLabel());
-            System.out.println("\nPhone numbers: ");
-            for (PhoneInfo phoneInfo : phoneList) {
+    public void displayBasicContactDetails(Contact contact){
+            System.out.println("Full name: " + contact.getName());
+            System.out.println("Contact label: " + contact.getLabel());
+            System.out.println("Phone numbers: ");
+            for (PhoneInfo phoneInfo : contact.getPhoneList()) {
                 System.out.println(phoneInfo.getNumber() + " " + phoneInfo.getLabel());
             }
-            List<AddressInfo> addressInfoList = particularContact.getAddressList();
-            List<EmailInfo> emailInfoList = particularContact.getEmailList();
-            List<SignificantDateInfo> significantDateInfoList= particularContact.getSignificantDateList();
-            System.out.println("\nAddresses: ");
+    }
+
+    public void displayFullContactDetails(Contact contact){
+            System.out.println("Full name: " + contact.getName());
+            System.out.println("Contact label: " + contact.getLabel());
+            System.out.println("Phone numbers: ");
+            for (PhoneInfo phoneInfo : contact.getPhoneList()) {
+                System.out.println(phoneInfo.getNumber() + " " + phoneInfo.getLabel());
+            }
+            List<AddressInfo> addressInfoList = contact.getAddressList();
+            List<EmailInfo> emailInfoList = contact.getEmailList();
+            List<SignificantDateInfo> significantDateInfoList= contact.getSignificantDateList();
+            System.out.println("Addresses: ");
             for (AddressInfo addressInfo : addressInfoList) {
                 System.out.println(addressInfo.getAddress() + " " + addressInfo.getLabel());
             }
-            System.out.println("\nEmails: ");
+            System.out.println("Emails: ");
             for (EmailInfo emailInfo : emailInfoList) {
                 System.out.println(emailInfo.getEmail() + " " + emailInfo.getLabel());
             }
-            System.out.println("\nSignificant dates are: ");
+            System.out.println("Significant dates are: ");
             for (SignificantDateInfo significantDateInfo : significantDateInfoList) {
                 System.out.println(significantDateInfo.getDate() + " " + significantDateInfo.getLabel());
             }
+    }
         }
     }
 
