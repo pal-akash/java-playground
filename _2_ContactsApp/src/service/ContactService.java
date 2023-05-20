@@ -175,6 +175,13 @@ public class ContactService {
                 System.out.println(significantDateInfo.getDate() + " " + significantDateInfo.getLabel());
             }
     }
+
+    public void showAllContact(){
+        for(Contact contact : contactList){
+            System.out.println("Full name: " + contact.getName());
+            for(PhoneInfo phoneInfo : contact.getPhoneList()){
+                System.out.println("Phone numbers: " + phoneInfo.getNumber());
+            }
         }
     }
 
