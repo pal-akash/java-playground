@@ -291,4 +291,32 @@ public class ContactsDao {
         }
         return flag;
     }
+    public void deleteContactDao(int contactId){
+        try{
+            con=ConnectionProvider.createConnection();
+            PreparedStatement preparedStatement;
+            String queryForSigDate = "delete from sigdate where cid=?";
+            String queryForAddress = "delete from address where cid=?";
+            String queryForEmail = "delete from email where cid=?";
+            String queryForPhoneNum = "delete from phonenum where cid=?";
+            String queryForContact = "delete from contact where id=?";
+            preparedStatement=con.prepareStatement(queryForSigDate);
+            preparedStatement.setInt(1,contactId);
+            preparedStatement.executeUpdate();
+            preparedStatement=con.prepareStatement(queryForAddress);
+            preparedStatement.setInt(1,contactId);
+            preparedStatement.executeUpdate();
+            preparedStatement=con.prepareStatement(queryForEmail);
+            preparedStatement.setInt(1,contactId);
+            preparedStatement.executeUpdate();
+            preparedStatement=con.prepareStatement(queryForPhoneNum);
+            preparedStatement.setInt(1,contactId);
+            preparedStatement.executeUpdate();
+            preparedStatement=con.prepareStatement(queryForContact);
+            preparedStatement.setInt(1,contactId);
+            preparedStatement.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 }

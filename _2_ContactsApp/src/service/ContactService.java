@@ -106,14 +106,14 @@ public class ContactService {
 
     public void searchForDisplayContact(Scanner sc) {
         System.out.println("Would you like to search using phone number or name? (P/N)");
+        boolean isFound=false;
         if (sc.next().equals("P")) {
             System.out.println("Enter phone number: ");
             BigInteger phoneNumber = sc.nextBigInteger();
-            boolean notFound=true;
             for (Contact contact : contactList) {
                 for (PhoneInfo phoneInfo : contact.getPhoneList()) {
                     if (phoneInfo.getNumber().equals(phoneNumber)) {
-                        notFound=false;
+                        isFound=true;
                         System.out.println("Contact found!");
                         displayBasicContactDetails(contact);
                         System.out.println("Would you like to see full contact details? Y/N");
@@ -123,17 +123,13 @@ public class ContactService {
                     }
                 }
             }
-            if(notFound){
-                System.out.println("No such contact found!");
-            }
         } else {
             System.out.println("Enter name: ");
             String nameInput = sc.next();
-            boolean notFound=true;
             for (Contact contact : contactList) {
                 if (contact.getName().contains(nameInput)) {
                     System.out.println("Contact found!");
-                    notFound=false;
+                    isFound=true;
                     displayBasicContactDetails(contact);
                     System.out.println("Would you like to see full contact details? Y/N");
                     if(sc.next().equals("Y")){
@@ -141,9 +137,9 @@ public class ContactService {
                     }
                 }
             }
-            if(notFound){
-                System.out.println("No such contact found!");
-            }
+        }
+        if(!isFound){
+            System.out.println("No such contact found!");
         }
     }
 
@@ -182,13 +178,46 @@ public class ContactService {
         }
     }
 
-    public void deleteContact(List<Contact> contactList, Scanner sc) {
-        Contact searchedContact = searchContact(contactList, sc);
-        if (Objects.isNull(searchedContact)) {
-            System.out.println("Can't execute delete operation.");
-        } else {
-            contactList.remove(searchedContact);
-            System.out.println("Contact has been successfully removed!");
+    public void searchForDelete(Scanner sc){
+        System.out.println("Would you like to search using phone number or name? (P/N)");
+        int foundId;
+        boolean isFound=false;
+        if (sc.next().equals("P")){
+            System.out.println("Enter phone number: ");
+            BigInteger phoneNumber = sc.nextBigInteger();
+            for (Contact contact : contactList) {
+                for (PhoneInfo phoneInfo : contact.getPhoneList()) {
+                    if (phoneInfo.getNumber().equals(phoneNumber)) {
+                        isFound=true;
+                        foundId=contact.getContactId();
+                        System.out.println("Contact found!\nDeleting contact...");
+                        contactsDao.deleteContactDao(foundId);
+                        contactList.remove(contact);
+                        System.out.println("Contact deleted successfully!");
+                        break;
+                    }
+                }
+                if(isFound){
+                    break;
+                }
+            }
+        }else{
+            System.out.println("Enter name: ");
+            String inputName = sc.next();
+            for (Contact contact : contactList) {
+                if (contact.getName().contains(inputName)) {
+                    isFound=true;
+                    foundId=contact.getContactId();
+                    System.out.println("Contact found!\nDeleting contact...");
+                    contactsDao.deleteContactDao(foundId);
+                    contactList.remove(contact);
+                    System.out.println("Contact deleted successfully!");
+                    break;
+                }
+            }
+        }
+        if(!isFound){
+            System.out.println("No such contact found!");
         }
     }
 
