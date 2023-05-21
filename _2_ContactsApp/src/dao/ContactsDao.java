@@ -319,6 +319,167 @@ public class ContactsDao {
             e.printStackTrace();
         }
     }
+
+    public void editFirstNameDao(int contactId, String newFirstName){
+        try{
+            con=ConnectionProvider.createConnection();
+            PreparedStatement preparedStatement;
+            String query = "update contact set fname=? where id=?";
+            preparedStatement=con.prepareStatement(query);
+            preparedStatement.setString(1,newFirstName);
+            preparedStatement.setInt(2,contactId);
+            preparedStatement.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void editMiddleNameDao(int contactId, String newMiddeName){
+        try{
+            con=ConnectionProvider.createConnection();
+            PreparedStatement preparedStatement;
+            String query = "update contact set mname=? where id=?";
+            preparedStatement=con.prepareStatement(query);
+            preparedStatement.setString(1,newMiddeName);
+            preparedStatement.setInt(2,contactId);
+            preparedStatement.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void editLastNameDao(int contactId, String newLastName){
+        try{
+            con=ConnectionProvider.createConnection();
+            PreparedStatement preparedStatement;
+            String query = "update contact set lname=? where id=?";
+            preparedStatement=con.prepareStatement(query);
+            preparedStatement.setString(1,newLastName);
+            preparedStatement.setInt(2,contactId);
+            preparedStatement.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void addNewNumFromEditDao(int contactId, String newNumber, String newNumLabel){
+        try{
+            con=ConnectionProvider.createConnection();
+            PreparedStatement preparedStatement;
+            String query="update phonenum set phonenumber=?, phonenumlabel=? where cid=?";
+            preparedStatement=con.prepareStatement(query);
+            preparedStatement.setString(1,newNumber);
+            preparedStatement.setString(2,newNumLabel);
+            preparedStatement.setInt(3,contactId);
+            preparedStatement.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void addNewEmailFromEditDao(int contactId, String newEmail, String newEmailLabel){
+        try{
+            con=ConnectionProvider.createConnection();
+            PreparedStatement preparedStatement;
+            String query="update email set emailaddress=?, emaillabel=? where cid=?";
+            preparedStatement=con.prepareStatement(query);
+            preparedStatement.setString(1,newEmail);
+            preparedStatement.setString(2,newEmailLabel);
+            preparedStatement.setInt(3,contactId);
+            preparedStatement.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void addNewSigdateFromEditDao(int contactId, LocalDate newSigdate, String newSigdateLabel){
+        try{
+            con=ConnectionProvider.createConnection();
+            PreparedStatement preparedStatement;
+            Date newSigdateToDB = Date.valueOf(newSigdate);
+            String query="update sigdate set significantdate=?, sigdatelabel=? where cid=?";
+            preparedStatement=con.prepareStatement(query);
+            preparedStatement.setDate(1,newSigdateToDB);
+            preparedStatement.setString(2,newSigdateLabel);
+            preparedStatement.setInt(3,contactId);
+            preparedStatement.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void addNewAddressFromEditDao(int contactId, String newAddress, String newAddressLabel){
+        try{
+            con=ConnectionProvider.createConnection();
+            PreparedStatement preparedStatement;
+            String query="update address set addressdetail=?, addresslabel=? where cid=?";
+            preparedStatement=con.prepareStatement(query);
+            preparedStatement.setString(1,newAddress);
+            preparedStatement.setString(2,newAddressLabel);
+            preparedStatement.setInt(3,contactId);
+            preparedStatement.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteNumberFromEdit(int searchedId, BigInteger phoneNumber){
+        try{
+            con=ConnectionProvider.createConnection();
+            PreparedStatement preparedStatement;
+            String phoneNum = phoneNumber.toString();
+            String query="delete from phonenum where cid=? and phonenumber=?";
+            preparedStatement=con.prepareStatement(query);
+            preparedStatement.setInt(1,searchedId);
+            preparedStatement.setString(2,phoneNum);
+            preparedStatement.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteEmailFromEdit(int searchedId, String email){
+        try{
+            con=ConnectionProvider.createConnection();
+            PreparedStatement preparedStatement;
+            String query="delete from email where cid=? and emailaddress=?";
+            preparedStatement=con.prepareStatement(query);
+            preparedStatement.setInt(1,searchedId);
+            preparedStatement.setString(2,email);
+            preparedStatement.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteAddressFromEdit(int searchedId, String address){
+        try{
+            con=ConnectionProvider.createConnection();
+            PreparedStatement preparedStatement;
+            String query="delete from address where cid=? and addressdetail=?";
+            preparedStatement=con.prepareStatement(query);
+            preparedStatement.setInt(1,searchedId);
+            preparedStatement.setString(2,address);
+            preparedStatement.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteSigDateFromEdit(int searchedId, LocalDate significantDate){
+        try{
+            con=ConnectionProvider.createConnection();
+            PreparedStatement preparedStatement;
+            String query="delete from sigdate where cid=? and significantdate=?";
+            preparedStatement=con.prepareStatement(query);
+            preparedStatement.setInt(1,searchedId);
+            preparedStatement.setDate(2,Date.valueOf(significantDate));
+            preparedStatement.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
     public void deleteAllContactDao(){
         try{
             con=ConnectionProvider.createConnection();
