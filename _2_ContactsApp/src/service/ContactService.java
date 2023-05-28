@@ -100,8 +100,9 @@ public class ContactService {
                 newContact.addSignificantDate(significantDate, labelForSignificantDate);
             }
         }
-    public void showAllContact() {
-        contactsDao.showAllContactDao();
+        Contact contactFromDB = contactsDao.addContactDao(newContact);
+        contactList.add(contactFromDB);
+        System.out.println("Contact saved successfully!");
     }
 
     public void searchForDisplayContact(Scanner sc) {

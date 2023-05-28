@@ -8,7 +8,6 @@ import java.math.BigInteger;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.sql.Date;
 
@@ -63,7 +62,6 @@ public class ContactsDao {
         try {
             con=ConnectionProvider.createConnection();
             PreparedStatement preparedStatement;
-            String query = "select id, fname, mname, lname, contactlabel from contactapp.contact where id=?";
             preparedStatement = con.prepareStatement(SQLStatements.SELECT_CONTACT_DETAILS_FROM_CONTACT_USING_ID);
             preparedStatement.setInt(1, contactId);
             ResultSet output = preparedStatement.executeQuery();
@@ -132,7 +130,6 @@ public class ContactsDao {
         try {
             con=ConnectionProvider.createConnection();
             PreparedStatement preparedStatement;
-            String query = "select id, fname, mname, lname, contactlabel from contactapp.contact where id=?";
             preparedStatement = con.prepareStatement(SQLStatements.SELECT_ALL_CONTACT);
             ResultSet output = preparedStatement.executeQuery();
 
@@ -291,6 +288,7 @@ public class ContactsDao {
         }
         return flag;
     }
+
     public void deleteContactDao(int contactId){
         try{
             con=ConnectionProvider.createConnection();
@@ -486,26 +484,27 @@ public class ContactsDao {
             PreparedStatement preparedStatement;
             String query = "delete from sigdate";
             preparedStatement=con.prepareStatement(query);
-            preparedStatement.executeUpdate(query);
+            preparedStatement.executeUpdate();
 
             query="delete from address";
             preparedStatement=con.prepareStatement(query);
-            preparedStatement.executeUpdate(query);
+            preparedStatement.executeUpdate();
 
             query="delete from email";
             preparedStatement=con.prepareStatement(query);
-            preparedStatement.executeUpdate(query);
+            preparedStatement.executeUpdate();
 
             query="delete from phonenum";
             preparedStatement=con.prepareStatement(query);
-            preparedStatement.executeUpdate(query);
+            preparedStatement.executeUpdate();
 
             query="delete from contact";
             preparedStatement=con.prepareStatement(query);
-            preparedStatement.executeUpdate(query);
+            preparedStatement.executeUpdate();
 
         }catch(Exception e){
             e.printStackTrace();
         }
     }
+
 }
