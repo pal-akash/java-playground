@@ -1,5 +1,6 @@
 package com.akash5.studentcrud.controller;
 
+import com.akash5.studentcrud.exception.UserNotFoundException;
 import com.akash5.studentcrud.model.Student;
 import com.akash5.studentcrud.repository.StudentRepository;
 import com.akash5.studentcrud.service.StudentService;
@@ -25,5 +26,9 @@ public class StudentController {
     @GetMapping("/getAll")
     public List<Student> getAllStudent(){
         return studentService.getAllStudent();
+    }
+    @GetMapping("/getById/{id}")
+    public Student getById(@PathVariable Integer id){
+        return studentService.getById(id);
     }
 }

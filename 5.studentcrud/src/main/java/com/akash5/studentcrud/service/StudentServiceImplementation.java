@@ -20,4 +20,8 @@ public class StudentServiceImplementation implements StudentService{
     public List<Student> getAllStudent() {
         return studentRepository.findAll();
     }
+    @Override
+    public Student getById(Integer id){
+        return studentRepository.findById(id).orElseThrow(()-> new UserNotFoundException(id));
+    }
 }
