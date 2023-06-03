@@ -23,12 +23,19 @@ public class StudentController {
         studentService.saveStudent(student);
         return "New student is added";
     }
+
     @GetMapping("/getAll")
     public List<Student> getAllStudent(){
         return studentService.getAllStudent();
     }
+
     @GetMapping("/getById/{id}")
     public Student getById(@PathVariable Integer id){
         return studentService.getById(id);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String delete(@PathVariable Integer id){
+        return studentService.deleteById(id);
     }
 }
