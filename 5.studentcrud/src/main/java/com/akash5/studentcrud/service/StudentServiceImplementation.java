@@ -38,4 +38,13 @@ public class StudentServiceImplementation implements StudentService{
     public Student getById(Integer id){
         return studentRepository.findById(id).orElseThrow(()-> new UserNotFoundException(id));
     }
+
+    @Override
+    public Student updateById(Student newStudent, Integer id){
+        return studentRepository.findById(id).map(student -> {
+            student.setName(newStudent.getName());
+            student.setAddress(newStudent.getAddress());
+            return studentRepository.save(student);
+        }).orElseThrow(()-> new UserNotFoundException(id));
+    }
 }
