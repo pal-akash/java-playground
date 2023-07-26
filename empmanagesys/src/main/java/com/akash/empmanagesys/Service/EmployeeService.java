@@ -16,4 +16,9 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    public List<Employee> getAllEmployeeSorted(PageRequest pageRequest) {
+        //Sort sort = Sort.by(sortBy);
+        Page<Employee> employeePage = employeeRepository.findAll(pageRequest);
+        return employeePage.getContent();
+    }
 }

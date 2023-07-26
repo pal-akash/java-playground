@@ -80,3 +80,8 @@ public class EmployeeController {
 
         return new ResponseEntity<Optional<Employee>>(employeeRepository.findById(employeeId), HttpStatus.OK);
     }
+
+    @RequestMapping("/getallempsorted")
+    public ResponseEntity<List<Employee>> getEmployeesWithPaginationAndSorting(@RequestParam("pagenumber") int pageNumber, @RequestParam("pagesize") int pageSize, @RequestParam("sortby") String sortBy) {
+        return new ResponseEntity<List<Employee>>(employeeService.getAllEmployeeSorted(PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.ASC, sortBy))), HttpStatus.OK);
+    }
