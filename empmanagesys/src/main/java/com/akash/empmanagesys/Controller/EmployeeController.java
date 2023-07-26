@@ -23,3 +23,9 @@ public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
+
+
+    @PostMapping("/save")
+    public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee) {
+        return new ResponseEntity<Employee>(employeeRepository.save(employee), HttpStatus.CREATED);
+    }
