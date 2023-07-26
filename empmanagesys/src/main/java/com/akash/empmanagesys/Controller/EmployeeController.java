@@ -29,10 +29,19 @@ public class EmployeeController {
     public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee) {
         return new ResponseEntity<Employee>(employeeRepository.save(employee), HttpStatus.CREATED);
     }
+
     @RequestMapping("/getbyid")
     public ResponseEntity<Optional<Employee>> getEmployeeById(@RequestParam("id") String employeeId){
         try {
             return new ResponseEntity<Optional<Employee>>(employeeRepository.findById(employeeId), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @GetMapping("/getall")
+    public ResponseEntity<List<Employee>> getAllEmployee() {
+        try {
+            return new ResponseEntity<List<Employee>>(employeeRepository.findAll(), HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
