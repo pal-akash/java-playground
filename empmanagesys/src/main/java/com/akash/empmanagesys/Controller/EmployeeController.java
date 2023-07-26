@@ -38,6 +38,7 @@ public class EmployeeController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
     @GetMapping("/getall")
     public ResponseEntity<List<Employee>> getAllEmployee() {
         try {
@@ -45,4 +46,10 @@ public class EmployeeController {
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @RequestMapping("/deletebyid")
+    public ResponseEntity<?> deleteEmployeeById(@RequestParam("id") String employeeId) {
+        employeeRepository.deleteById(employeeId);
+        return ResponseEntity.ok("Employee deleted!");
     }
