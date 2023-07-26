@@ -53,3 +53,18 @@ public class EmployeeController {
         employeeRepository.deleteById(employeeId);
         return ResponseEntity.ok("Employee deleted!");
     }
+
+    @RequestMapping("/update")
+    public ResponseEntity<Employee> updateEmployeeById(@RequestParam("id") String employeeId, @RequestBody Employee employee){
+        Optional<Employee> foundEmployee = employeeRepository.findById(employeeId);
+
+
+        foundEmployee.get().setEmployeeId(employee.getEmployeeId());
+        foundEmployee.get().setEmployeeName(employee.getEmployeeName());
+        foundEmployee.get().setPhoneNumber(employee.getPhoneNumber());
+        foundEmployee.get().setEmail(employee.getEmail());
+        foundEmployee.get().setReportsTo(employee.getReportsTo());
+        foundEmployee.get().setProfileImageUrl(employee.getProfileImageUrl());
+
+        return new ResponseEntity<Employee>(employeeRepository.save(foundEmployee.get()), HttpStatus.OK);
+    }
