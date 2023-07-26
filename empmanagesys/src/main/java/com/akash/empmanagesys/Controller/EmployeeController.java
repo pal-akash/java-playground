@@ -68,3 +68,15 @@ public class EmployeeController {
 
         return new ResponseEntity<Employee>(employeeRepository.save(foundEmployee.get()), HttpStatus.OK);
     }
+
+    @RequestMapping("/nthlevelmanager")
+    public ResponseEntity<Optional<Employee>> getNthLevelManager(@RequestParam("id") String employeeId, @RequestParam("level") int n) {
+
+        for(int i=0;  i<n; i++){
+            Employee employee = employeeRepository.findById(employeeId).get();
+            String managerId= employee.getReportsTo();
+            employeeId = managerId;
+        }
+
+        return new ResponseEntity<Optional<Employee>>(employeeRepository.findById(employeeId), HttpStatus.OK);
+    }
